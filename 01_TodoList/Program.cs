@@ -1,4 +1,4 @@
-
+﻿
 List<string> todoList = new List<string>();
 
 Console.WriteLine("Hello!");
@@ -71,43 +71,67 @@ bool IsEqualCase(string a, string b)
 }
 
 
-    int index;
-    do
-    {
-        Console.WriteLine("Select the index of the TODO you want to remove:");
-        SeeAllTodos();
-    } while (!TryReadIndex(out index));
+/* Notes:
+    multiple declaration:
+        int one = 3, two = 2;
+        int one, two;
+    naming:
+        letters digits _ @ but first char can't be a digit
+        case sensitive
+        keywords
+        vars - lower camelcase
+        methods - upper camelcase
+        meaningful
+            avoid abrevation
+            precise firstname vs name1
+        boolean
+            yes or no / true or false quesion
+            isBlonde
 
-    RemoveTodoAtIndex(index - 1);
-}
+    operators
+        precedence: pemdas
+    implicitly defined variables (vs explicitly)
+        var name = "string"
+            - is a string in every way
+            - must be declared inline
+            - good practice
+    short circuiting for time optimization
+        - true || ---- ends when true is evaluated
+        - false && ----- ends when false is evaluated
+    methods
+        - avoid repetitions
+        void MethodName(type parameter) {}
+        MethodName(arguement);
+        type MethodName() {
+            return varOftype;
+        }
+        can be used before declared in file'
+    Statically typed
+        - int stays an int
+        - int.Parse(string);
+    string extrapilation
+        $"..."{int} ... {int} ... {}"
+    do while loop
+        do {
+            
+        } while ();
+        - bad to set variables to a default random value bc of changing requirements
+          instead use do while loops where you can
+    performance
+        - break early
+        - put preformance-heavy code outside loops where possible
+    continue;
+        - skips the rest of the iteration and goes to the next iteration
+    out
+        - must be assigned within the method
+        - passes a reference
+        int var;
+        MethodName( out var );
+        MethodName( out int varName );
+        void MethodName( out int var ) { }
+    int.TryParse( string, out int number )
+        - returns a boolean
+        - number is now the string parsed
 
-bool TryReadIndex(out int index)
-{
-    var userInput = Console.ReadLine();
-    if (userInput == "")
-    {
-        index = 0;
-        Console.WriteLine("Selected index cannot be empty");
-        return false;
-    }
-    if (int.TryParse(userInput, out index) &&
-        index >= 1 &&
-        index <= todos.Count)
-    {
-        return true;
-    }
-    Console.WriteLine("The given index is not valid.");
-    return false;
-}
 
-void RemoveTodoAtIndex(int index)
-{
-    var todoToBeRemoved = todos[index];
-    todos.RemoveAt(index);
-    Console.WriteLine("TODO removed: " + todoToBeRemoved);
-}
-
-void ShowNoTodosMessage()
-{
-    Console.WriteLine("No TODOs have been added yet.");
-}
+*/
