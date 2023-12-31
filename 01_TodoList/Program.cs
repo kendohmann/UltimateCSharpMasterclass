@@ -1,46 +1,59 @@
-var todos = new List<string>();
+
+List<string> todoList = new List<string>();
 
 Console.WriteLine("Hello!");
 
-bool shallExit = false;
-while (!shallExit)
+var userAction = Console.ReadLine();
+bool continue_ = true;
+while(continue_)
 {
     Console.WriteLine("What do you want to do?");
-    Console.WriteLine("[S]ee all todos");
-    Console.WriteLine("[A]dd a todo");
-    Console.WriteLine("[R]emove a todo");
+    Console.WriteLine("[S]ee all TODOs");
+    Console.WriteLine("[A]dd a TODO");
+    Console.WriteLine("[R]emove a TODO");
     Console.WriteLine("[E]xit");
+    userAction = Console.ReadLine();
+    if( IsEqualCase(userAction, "s")) 
+    {
+        PrintTodoList(todoList);
+        break;
 
-    var userChoice = Console.ReadLine();
-
-    switch (userChoice)
+    } else if( IsEqualCase(userAction, "a") ) 
     {
         Console.WriteLine("What todo do you want to add?");
         todoList.Add(Console.ReadLine());
         break;
 
-Console.ReadKey();
+    } else if( IsEqualCase(userAction, "r") ) 
+    {
+        PrintTodoList(todoList);
+        Console.WriteLine("Which number todo do you want to add?");
+        int.TryParse( Console.ReadLine() , out int index );
+        while(index < 0 || index > todoList.Count())
+        {
+            Console.WriteLine("Invalid Index, Please enter another:");
+            int.TryParse( Console.ReadLine() , out index );
+        }
+        todoList.RemoveAt(index);
+        break;
+        
+    } else if(IsEqualCase(userAction, "e") ) 
+    {
+        continue_ = false;
+        break;
 
-void SeeAllTodos()
-{
-    if (todos.Count == 0)
+    } else
     {
-        ShowNoTodosMessage();
-        return;
-    }
-    for (int i = 0; i < todos.Count; i++)
-    {
-        Console.WriteLine($"{i + 1}. {todos[i]}");
+        Console.WriteLine("Incorrect input");
     }
 }
+Console.WriteLine("Goodbye!");
 
-void AddTodo()
+void PrintTodoList(List<string> todoList)
 {
-    string description;
-    do
+    for(int i = 0; i < todoList.Count; i++)
     {
-        Console.WriteLine("Enter the TODO description:");
-        description = Console.ReadLine();
+        Console.WriteLine($"{i}. " + todoList[i]);
     }
 }
 
@@ -54,7 +67,7 @@ bool IsEqualCase(string a, string b)
     {
         return false;
     }
-    return true;
+    return a.ToLower() == b.ToLower();
 }
 
 
