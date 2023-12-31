@@ -1,11 +1,10 @@
-﻿var todos = new List<string>();
+var todos = new List<string>();
 
 Console.WriteLine("Hello!");
 
 bool shallExit = false;
 while (!shallExit)
 {
-    Console.WriteLine();
     Console.WriteLine("What do you want to do?");
     Console.WriteLine("[S]ee all todos");
     Console.WriteLine("[A]dd a todo");
@@ -16,27 +15,9 @@ while (!shallExit)
 
     switch (userChoice)
     {
-        case "E":
-        case "e":
-            shallExit = true;
-            break;
-        case "S":
-        case "s":
-            SeeAllTodos();
-            break;
-        case "A":
-        case "a":
-            AddTodo();
-            break;
-        case "R":
-        case "r":
-            RemoveTodo();
-            break;
-        default:
-            Console.WriteLine("Invalid choice");
-            break;
-    }
-}
+        Console.WriteLine("What todo do you want to add?");
+        todoList.Add(Console.ReadLine());
+        break;
 
 Console.ReadKey();
 
@@ -61,32 +42,21 @@ void AddTodo()
         Console.WriteLine("Enter the TODO description:");
         description = Console.ReadLine();
     }
-    while (!IsDescriptionValid(description));
-    todos.Add(description);
 }
 
-bool IsDescriptionValid(string description)
+bool IsEqualCase(string a, string b)
 {
-    if (description == "")
+    if( a== null && b == null ) 
     {
-        Console.WriteLine("The description cannot be empty");
-        return false;
+        return true;
     }
-    if (todos.Contains(description))
+    if( a == null || b == null ) 
     {
-        Console.WriteLine("The description must be unique.");
         return false;
     }
     return true;
 }
 
-void RemoveTodo()
-{
-    if (todos.Count == 0)
-    {
-        ShowNoTodosMessage();
-        return;
-    }
 
     int index;
     do
