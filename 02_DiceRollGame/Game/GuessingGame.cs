@@ -1,44 +1,51 @@
-﻿using DiceRollGame.UserCommunication;
+using System.Security.Cryptography.X509Certificates;
+using Game;
+using Microsoft.VisualBasic;
 
-namespace DiceRollGame.Game
+public class GuessingGame
 {
-    public class GuessingGame
+    private readonly Die _die;
+    private const int TriesCount = 3;
+    private int tries;
+
+    public GuessingGame()
     {
-        private readonly Dice _dice;
-        private const int InitialTries = 3;
+        _die = new Die();
+        tries = 0;
+    }
+    public void Play()
+    {
+        var diceRoll = _die.rollDie();
+        Console.WriteLine($"Dice rolled. Guess what number it shows in {TriesCount} tries.");
+        int guess;
+        bool repeat;
 
-        public GuessingGame(Dice dice)
+        do
         {
-            _dice = dice;
-        }
+            Console.WriteLine("Enter number:");
+            guess = ConsoleReader.ReadIntegerRange(1, TriesCount);
+            repeat = EvaluateGuess(guess, diceRoll);
+        } while(repeat);
+    }
 
-        public GameResult Play()
+    private bool EvaluateGuess(int guess, int correct)
+    {
+        string incorrectMessage = "Wrong Number.";
+
+        if(guess == correct)
         {
-            var diceRollResult = _dice.Roll();
-            Console.WriteLine(
-                $"Dice rolled. Guess what number it shows in {InitialTries} tries.");
+            Console.WriteLine("You win");
+            return false;
 
-            var triesLeft = InitialTries;
-            while (triesLeft > 0)
-            {
-                var guess = ConsoleReader.ReadInteger("Enter a number:");
-                if (guess == diceRollResult)
-                {
-                    return GameResult.Victory;
-                }
-                Console.WriteLine("Wrong number.");
-                --triesLeft;
-            }
-            return GameResult.Loss;
-        }
-
-        public static void PrintResult(GameResult gameResult)
+        } else if( !(tries > TriesCount) ) 
         {
-            string message = gameResult == GameResult.Victory
-                ? "You win!"
-                : "You lose :(";
-
-            Console.WriteLine(message);
+            Console.WriteLine(incorrectMessage);
+            return true;
+        } else
+        {
+            Console.WriteLine(incorrectMessage);
+            Console.WriteLine("You lose.");
+            return false;
         }
     }
 }
