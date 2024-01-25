@@ -1,9 +1,9 @@
-﻿
+
 List<string> todoList = new List<string>();
 
 Console.WriteLine("Hello!");
 
-var userAction = Console.ReadLine();
+var userAction = "";
 bool continue_ = true;
 while(continue_)
 {
@@ -15,45 +15,73 @@ while(continue_)
     userAction = Console.ReadLine();
     if( IsEqualCase(userAction, "s")) 
     {
-        PrintTodoList(todoList);
-        break;
+        PrintTodoList();
 
     } else if( IsEqualCase(userAction, "a") ) 
     {
         Console.WriteLine("What todo do you want to add?");
-        todoList.Add(Console.ReadLine());
-        break;
+        string toAdd = Console.ReadLine();
+        while( !isDescriptionValid(toAdd) )
+        {
+            Console.WriteLine("Invalid input. Please enter a new todo");
+            toAdd = Console.ReadLine();
+        }
 
     } else if( IsEqualCase(userAction, "r") ) 
     {
-        PrintTodoList(todoList);
-        Console.WriteLine("Which number todo do you want to add?");
-        int.TryParse( Console.ReadLine() , out int index );
-        while(index < 0 || index > todoList.Count())
-        {
-            Console.WriteLine("Invalid Index, Please enter another:");
-            int.TryParse( Console.ReadLine() , out index );
-        }
-        todoList.RemoveAt(index);
-        break;
+
+        PrintTodoList();
+         if(todoList.Count == 0) {
+            continue;
+        }       
+        Console.WriteLine("Which number todo do you want to remove?");
+         int index = GetValidIndex();
+        
+        todoList.RemoveAt(index-1);
         
     } else if(IsEqualCase(userAction, "e") ) 
     {
         continue_ = false;
-        break;
 
     } else
     {
         Console.WriteLine("Incorrect input");
     }
 }
+
 Console.WriteLine("Goodbye!");
 
-void PrintTodoList(List<string> todoList)
+bool isDescriptionValid(string descript)
 {
+    if(descript == null || descript.Length == 0)
+    {
+        return false;
+    }
+    if(todoList.Contains(descript))
+    {
+        return false;
+    }
+    return true;
+}
+int GetValidIndex()
+{
+        int.TryParse( Console.ReadLine() , out int index );
+        while(index < 0 || index > todoList.Count())
+        {
+            Console.WriteLine("Invalid Index, Please enter another:");
+            int.TryParse( Console.ReadLine() , out index );
+        }
+        return index;
+}
+
+void PrintTodoList()
+{
+    if(todoList.Count == 0) {
+        Console.WriteLine("Todo list is empty");
+    }
     for(int i = 0; i < todoList.Count; i++)
     {
-        Console.WriteLine($"{i}. " + todoList[i]);
+        Console.WriteLine($"{(i+1)}. " + todoList[i]);
     }
 }
 
